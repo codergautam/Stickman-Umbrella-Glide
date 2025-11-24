@@ -795,137 +795,158 @@ const App: React.FC = () => {
       />
 
       {/* HUD */}
-      <div className={`absolute top-0 left-0 w-full p-6 flex justify-between items-start pointer-events-none z-20 transition-opacity duration-500 ${gameState === GameState.PLAYING && !isPaused ? 'opacity-100' : 'opacity-0'}`}>
-          <div className="flex flex-col gap-4">
+      <div className={`absolute top-0 left-0 w-full p-3 sm:p-6 flex justify-between items-start pointer-events-none z-20 transition-opacity duration-500 ${gameState === GameState.PLAYING && !isPaused ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="flex flex-col gap-2 sm:gap-4">
              <div>
-               <span className="text-gray-400 text-sm font-bold tracking-wider shadow-black drop-shadow-sm">DEPTH</span>
-               <div className={`text-4xl font-black text-white drop-shadow-md tabular-nums transition-all duration-150 ${scorePulse ? 'scale-125 text-blue-300' : 'scale-100'}`}>
+               <span className="text-gray-400 text-xs sm:text-sm font-bold tracking-wider shadow-black drop-shadow-sm">DEPTH</span>
+               <div className={`text-2xl sm:text-4xl font-black text-white drop-shadow-md tabular-nums transition-all duration-150 ${scorePulse ? 'scale-125 text-blue-300' : 'scale-100'}`}>
                   {score}m
                </div>
              </div>
              <div>
-               <span className="text-gray-400 text-sm font-bold tracking-wider shadow-black drop-shadow-sm">COINS</span>
-               <div className="text-2xl font-black text-yellow-400 drop-shadow-md tabular-nums flex items-center gap-1">
-                  <span className="text-3xl">💰</span> {coins}
+               <span className="text-gray-400 text-xs sm:text-sm font-bold tracking-wider shadow-black drop-shadow-sm">COINS</span>
+               <div className="text-xl sm:text-2xl font-black text-yellow-400 drop-shadow-md tabular-nums flex items-center gap-1">
+                  <span className="text-2xl sm:text-3xl">💰</span> {coins}
                </div>
              </div>
           </div>
-          <div className="flex flex-col items-end gap-3">
-             <div className="flex gap-2">
+          <div className="flex flex-col items-end gap-2 sm:gap-3">
+             <div className="flex gap-1 sm:gap-2">
                <button
                  onClick={handlePause}
-                 className="pointer-events-auto bg-black/60 hover:bg-black/80 backdrop-blur-sm text-white font-bold px-4 py-2 rounded-lg border border-white/20 transition-all hover:scale-105 flex items-center gap-2"
+                 className="pointer-events-auto bg-black/60 hover:bg-black/80 backdrop-blur-sm text-white font-bold px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg border border-white/20 transition-all hover:scale-105 flex items-center gap-1 sm:gap-2"
                >
-                 <span className="text-xl">⏸️</span>
-                 <span className="text-sm">PAUSE</span>
+                 <span className="text-base sm:text-xl">⏸️</span>
+                 <span className="text-xs sm:text-sm hidden sm:inline">PAUSE</span>
                </button>
                <button
                  onClick={() => setIsDarkMode(!isDarkMode)}
-                 className="pointer-events-auto bg-black/60 hover:bg-black/80 backdrop-blur-sm text-white font-bold px-3 py-2 rounded-lg border border-white/20 transition-all hover:scale-105"
+                 className="pointer-events-auto bg-black/60 hover:bg-black/80 backdrop-blur-sm text-white font-bold px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border border-white/20 transition-all hover:scale-105"
                  title={isDarkMode ? 'Switch to Day Mode' : 'Switch to Night Mode'}
                >
-                 <span className="text-xl">{isDarkMode ? '☀️' : '🌙'}</span>
+                 <span className="text-base sm:text-xl">{isDarkMode ? '☀️' : '🌙'}</span>
                </button>
              </div>
              <div className="text-right">
-               <span className="text-gray-400 text-sm font-bold tracking-wider shadow-black drop-shadow-sm">RECORD</span>
-               <div className="text-xl font-bold text-yellow-400 drop-shadow-md tabular-nums">{highScore}m</div>
+               <span className="text-gray-400 text-xs sm:text-sm font-bold tracking-wider shadow-black drop-shadow-sm">RECORD</span>
+               <div className="text-base sm:text-xl font-bold text-yellow-400 drop-shadow-md tabular-nums">{highScore}m</div>
                {crazyUser && (
-                  <span className="text-xs text-blue-300 mt-1 font-bold block">Logged in as: {crazyUser.username}</span>
+                  <span className="text-xs text-blue-300 mt-1 font-bold block hidden sm:block">Logged in as: {crazyUser.username}</span>
                )}
              </div>
           </div>
       </div>
 
       {/* Start Screen */}
-      <div className={`absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-30 transition-all duration-700 ${gameState === GameState.START ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+      <div className={`absolute inset-0 flex items-start sm:items-center justify-center bg-black/60 backdrop-blur-sm z-30 transition-all duration-700 overflow-y-auto scrollbar-hide ${gameState === GameState.START ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
           {/* Animated Falling Stickman */}
           {gameState === GameState.START && <HomeStickman />}
 
-          <div className="flex flex-col md:flex-row gap-8 items-center max-w-4xl w-full p-4">
+          <div className="flex flex-col md:flex-row gap-4 sm:gap-8 items-center max-w-4xl w-full p-4 sm:p-6 md:p-8 pt-8 sm:pt-6 my-auto">
 
               {/* Left Column: Title & Play */}
-              <div className="text-center md:text-left flex-1">
-                <h1 className="text-6xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 transform -rotate-2 animate-float">
-                UMBRELLA<br/>GLIDE
-                </h1>
-                <p className="text-gray-300 mb-8 text-lg">
-                Hold to <span className="text-blue-400 font-bold">Open Umbrella</span> (Slow)<br/>
-                Release to <span className="text-red-400 font-bold">Dive</span> (Fast)<br/>
-                Drag to Move
+              <div className="text-center md:text-left flex-1 w-full">
+                <div className="mb-3 sm:mb-4 md:mb-6 mt-2 sm:mt-0">
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-2 leading-tight" style={{
+                    background: 'linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #ec4899 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    textShadow: '0 0 40px rgba(96, 165, 250, 0.5)',
+                    filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5))'
+                  }}>
+                    STICKMAN<br/>UMBRELLA<br/>GLIDE
+                  </h1>
+                  <div className="text-yellow-400 text-base sm:text-lg md:text-xl font-bold tracking-wider">
+                    ☂️ Hold the Sky, Drop with Style ☂️
+                  </div>
+                </div>
+                <p className="text-gray-200 mb-4 sm:mb-8 text-sm sm:text-base md:text-lg font-medium bg-black/30 backdrop-blur-sm rounded-lg p-3 sm:p-4 border border-white/10">
+                  <span className="block text-blue-300 font-bold text-base sm:text-lg mb-2">🎮 HOW TO PLAY:</span>
+                  Hold to <span className="text-blue-400 font-bold">Open Umbrella</span> (Slow)<br/>
+                  Release to <span className="text-red-400 font-bold">Dive Fast</span><br/>
+                  Drag to <span className="text-purple-400 font-bold">Move Left/Right</span>
                 </p>
                 
-                <button
-                onClick={handleStart}
-                className="group relative inline-flex h-16 w-full md:w-64 items-center justify-center overflow-hidden rounded-full bg-white font-medium text-black transition-all duration-300 hover:scale-105 hover:bg-blue-400 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-400/50"
-                >
-                <span className="mr-2 text-xl font-bold">DROP!</span>
-                <svg className="h-6 w-6 transition-transform duration-300 group-hover:translate-y-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
-                </button>
+                <div className="flex flex-col sm:flex-row gap-3 mb-4 sm:mb-6">
+                  <button
+                    onClick={handleStart}
+                    className="group relative inline-flex h-14 sm:h-16 flex-1 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 font-bold text-white transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400/50 touch-manipulation shadow-lg shadow-blue-500/50"
+                  >
+                    <span className="mr-2 text-xl sm:text-2xl">🚀</span>
+                    <span className="text-lg sm:text-xl font-black">START GAME</span>
+                  </button>
 
-                <button
-                onClick={() => setShowShop(true)}
-                className="mt-4 group relative inline-flex h-14 w-full md:w-64 items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 font-medium text-black transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-400/50 pointer-events-auto"
-                >
-                <span className="mr-2 text-lg font-bold">🛍️ SHOP</span>
-                <span className="text-xs bg-black/20 px-2 py-0.5 rounded-full">{coins} coins</span>
-                </button>
+                  <button
+                    onClick={() => setShowShop(true)}
+                    className="group relative inline-flex h-14 sm:h-16 flex-1 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 font-bold text-black transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-400/50 pointer-events-auto touch-manipulation shadow-lg shadow-yellow-500/50"
+                  >
+                    <span className="mr-2 text-xl sm:text-2xl">🛍️</span>
+                    <span className="text-base sm:text-lg font-black">SHOP</span>
+                    <span className="ml-2 text-xs bg-black/20 px-2 py-1 rounded-full font-bold">💰 {coins}</span>
+                  </button>
+                </div>
 
-                <div className="mt-6 space-y-2">
-                    <div className="text-xs text-gray-500 uppercase tracking-widest">
-                        Your Personal Best: {highScore}m
+                {/* Stats and Player Info */}
+                <div className="bg-black/40 backdrop-blur-md rounded-xl p-3 sm:p-4 border border-white/20 mb-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl">🏆</span>
+                      <div>
+                        <div className="text-xs text-gray-400">Personal Best</div>
+                        <div className="text-xl sm:text-2xl font-black text-yellow-400">{highScore}m</div>
+                      </div>
                     </div>
-                    
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl">👤</span>
+                      <div>
+                        <div className="text-xs text-gray-400">Player</div>
+                        <div className="text-sm sm:text-base font-bold text-blue-300">{playerName}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleRegenerateName}
+                      className="flex-1 text-xs font-bold text-yellow-300 hover:text-yellow-100 bg-yellow-500/10 hover:bg-yellow-500/20 px-3 py-2 rounded-lg border border-yellow-500/30 flex items-center justify-center gap-1 touch-manipulation transition-all"
+                    >
+                      <span>🎲</span>
+                      <span>New Name</span>
+                    </button>
                     {!crazyUser ? (
-                        <button
+                      <button
                         onClick={handleCrazyGamesLogin}
-                        className="text-xs font-bold text-blue-300 hover:text-white underline decoration-blue-500/50 underline-offset-4"
-                        >
-                        LOGIN WITH CRAZYGAMES
-                        </button>
+                        className="flex-1 text-xs font-bold text-blue-300 hover:text-white bg-blue-500/10 hover:bg-blue-500/20 px-3 py-2 rounded-lg border border-blue-500/30 touch-manipulation transition-all"
+                      >
+                        🎮 Login
+                      </button>
                     ) : (
-                        <div className="text-xs font-bold text-green-400">
-                             Logged in as {crazyUser.username}
-                        </div>
+                      <div className="flex-1 text-xs font-bold text-green-400 bg-green-500/10 px-3 py-2 rounded-lg border border-green-500/30 text-center">
+                        ✅ {crazyUser.username}
+                      </div>
                     )}
+                  </div>
+                </div>
 
-                    {/* Player Name Display with Regenerate */}
-                    <div className="mt-3 pt-3 border-t border-white/10">
-                        <div className="flex flex-col items-center gap-2">
-                            <div className="text-center">
-                                <div className="text-xs text-gray-400 mb-1">Your Unique Name</div>
-                                <div className="text-sm font-bold text-blue-300 bg-black/40 px-3 py-1.5 rounded border border-blue-400/30">
-                                    {playerName}
-                                </div>
-                            </div>
-                            <button
-                                onClick={handleRegenerateName}
-                                className="text-xs font-bold text-yellow-300 hover:text-yellow-100 underline decoration-yellow-500/50 underline-offset-4 flex items-center gap-1"
-                            >
-                                <span>🎲</span>
-                                <span>Generate New Name</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Game Mode Selector */}
-                    <div className="mt-3 pt-3 border-t border-white/10 pointer-events-auto">
-                        <div className="text-xs text-gray-400 uppercase tracking-widest mb-3 text-center">
-                            Game Mode
-                        </div>
-                        <div className="space-y-2">
+                {/* Game Mode Selector */}
+                <div className="bg-black/40 backdrop-blur-md rounded-xl p-3 sm:p-4 border border-white/20 mb-4 pointer-events-auto">
+                  <div className="text-sm sm:text-base font-black text-white uppercase tracking-wider mb-3 text-center flex items-center justify-center gap-2">
+                    <span>🎮</span>
+                    <span>Select Game Mode</span>
+                    <span>🎮</span>
+                  </div>
+                        <div className="space-y-1.5 sm:space-y-2">
                             <button
                                 onClick={() => handleSelectGameMode('ENDLESS')}
-                                className={`w-full py-3 px-4 rounded-lg text-left transition-all ${
+                                className={`w-full py-2 sm:py-3 px-3 sm:px-4 rounded-lg text-left transition-all touch-manipulation ${
                                     gameMode === 'ENDLESS'
                                         ? 'bg-blue-500 text-white scale-105 shadow-lg shadow-blue-500/50'
                                         : 'bg-black/40 text-gray-300 hover:bg-black/60 border border-white/20'
                                 }`}
                             >
                                 <div className="flex items-center gap-2">
-                                    <span className="text-xl">🎯</span>
+                                    <span className="text-lg sm:text-xl">🎯</span>
                                     <div className="flex-1">
                                         <div className="font-bold text-sm">Endless Mode</div>
                                         <div className="text-xs opacity-80">Survive as long as possible</div>
@@ -935,14 +956,14 @@ const App: React.FC = () => {
 
                             <button
                                 onClick={() => handleSelectGameMode('STORM')}
-                                className={`w-full py-3 px-4 rounded-lg text-left transition-all ${
+                                className={`w-full py-2 sm:py-3 px-3 sm:px-4 rounded-lg text-left transition-all touch-manipulation ${
                                     gameMode === 'STORM'
                                         ? 'bg-purple-500 text-white scale-105 shadow-lg shadow-purple-500/50'
                                         : 'bg-black/40 text-gray-300 hover:bg-black/60 border border-white/20'
                                 }`}
                             >
                                 <div className="flex items-center gap-2">
-                                    <span className="text-xl">🌀</span>
+                                    <span className="text-lg sm:text-xl">🌀</span>
                                     <div className="flex-1">
                                         <div className="font-bold text-sm">Storm Mode</div>
                                         <div className="text-xs opacity-80">Hardcore · 3x Score · Free Shield</div>
@@ -952,14 +973,14 @@ const App: React.FC = () => {
 
                             <button
                                 onClick={() => gameMode === 'CHALLENGE' ? setShowChallengeLevels(true) : handleSelectGameMode('CHALLENGE')}
-                                className={`w-full py-3 px-4 rounded-lg text-left transition-all ${
+                                className={`w-full py-2 sm:py-3 px-3 sm:px-4 rounded-lg text-left transition-all touch-manipulation ${
                                     gameMode === 'CHALLENGE'
                                         ? 'bg-yellow-500 text-black scale-105 shadow-lg shadow-yellow-500/50'
                                         : 'bg-black/40 text-gray-300 hover:bg-black/60 border border-white/20'
                                 }`}
                             >
                                 <div className="flex items-center gap-2">
-                                    <span className="text-xl">🪂</span>
+                                    <span className="text-lg sm:text-xl">🪂</span>
                                     <div className="flex-1">
                                         <div className="font-bold text-sm">Challenge Levels</div>
                                         <div className="text-xs opacity-80">
@@ -975,18 +996,20 @@ const App: React.FC = () => {
                                 </div>
                             </button>
                         </div>
-                    </div>
+                </div>
 
-                    {/* Difficulty Selector - Only show for Endless and Storm modes */}
-                    {gameMode !== 'CHALLENGE' && (
-                    <div className="mt-3 pt-3 border-t border-white/10 pointer-events-auto">
-                        <div className="text-xs text-gray-400 uppercase tracking-widest mb-2 text-center">
-                            Difficulty
-                        </div>
-                        <div className="flex gap-2">
+                {/* Difficulty Selector - Only show for Endless and Storm modes */}
+                {gameMode !== 'CHALLENGE' && (
+                  <div className="bg-black/40 backdrop-blur-md rounded-xl p-3 sm:p-4 border border-white/20 mb-4 pointer-events-auto">
+                    <div className="text-sm sm:text-base font-black text-white uppercase tracking-wider mb-3 text-center flex items-center justify-center gap-2">
+                      <span>⚡</span>
+                      <span>Difficulty</span>
+                      <span>⚡</span>
+                    </div>
+                        <div className="flex gap-1.5 sm:gap-2">
                             <button
                                 onClick={() => setDifficultyMode('EASY')}
-                                className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition-all ${
+                                className={`flex-1 py-2 px-2 sm:px-3 rounded-lg text-xs font-bold transition-all touch-manipulation ${
                                     difficultyMode === 'EASY'
                                         ? 'bg-green-500 text-white scale-105'
                                         : 'bg-black/40 text-gray-400 hover:bg-black/60 border border-white/20'
@@ -996,7 +1019,7 @@ const App: React.FC = () => {
                             </button>
                             <button
                                 onClick={() => setDifficultyMode('MEDIUM')}
-                                className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition-all ${
+                                className={`flex-1 py-2 px-2 sm:px-3 rounded-lg text-xs font-bold transition-all touch-manipulation ${
                                     difficultyMode === 'MEDIUM'
                                         ? 'bg-yellow-500 text-black scale-105'
                                         : 'bg-black/40 text-gray-400 hover:bg-black/60 border border-white/20'
@@ -1006,7 +1029,7 @@ const App: React.FC = () => {
                             </button>
                             <button
                                 onClick={() => setDifficultyMode('HARD')}
-                                className={`flex-1 py-2 px-3 rounded-lg text-xs font-bold transition-all ${
+                                className={`flex-1 py-2 px-2 sm:px-3 rounded-lg text-xs font-bold transition-all touch-manipulation ${
                                     difficultyMode === 'HARD'
                                         ? 'bg-red-500 text-white scale-105'
                                         : 'bg-black/40 text-gray-400 hover:bg-black/60 border border-white/20'
@@ -1015,39 +1038,38 @@ const App: React.FC = () => {
                                 😈 HARD
                             </button>
                         </div>
-                    </div>
-                    )}
-                </div>
+                  </div>
+                )}
               </div>
 
               {/* Right Column: Leaderboard */}
-              <div className="w-full md:w-80 bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-md shadow-xl flex flex-col h-96">
-                  <h3 className="text-center text-sm font-bold text-blue-300 tracking-widest uppercase mb-4 border-b border-white/10 pb-2">Global Top 10</h3>
-                  
-                  <div className="flex-1 overflow-y-auto scrollbar-hide space-y-2">
+              <div className="w-full md:w-80 bg-white/5 border border-white/10 rounded-2xl p-3 sm:p-4 backdrop-blur-md shadow-xl flex flex-col h-80 sm:h-96">
+                  <h3 className="text-center text-xs sm:text-sm font-bold text-blue-300 tracking-widest uppercase mb-3 sm:mb-4 border-b border-white/10 pb-2">Global Top 10</h3>
+
+                  <div className="flex-1 overflow-y-auto scrollbar-hide space-y-1.5 sm:space-y-2">
                     {leaderboard.length === 0 ? (
-                        <div className="text-center text-gray-400 py-8">
-                          <div className="text-4xl mb-3">🏆</div>
-                          <p className="text-sm font-bold mb-1">No Scores Yet!</p>
-                          <p className="text-xs text-gray-500">Be the first to make it<br/>to the leaderboard</p>
+                        <div className="text-center text-gray-400 py-6 sm:py-8">
+                          <div className="text-3xl sm:text-4xl mb-2 sm:mb-3">🏆</div>
+                          <p className="text-xs sm:text-sm font-bold mb-1">No Scores Yet!</p>
+                          <p className="text-[10px] sm:text-xs text-gray-500">Be the first to make it<br/>to the leaderboard</p>
                         </div>
                     ) : (
                         leaderboard.map((entry, index) => (
-                            <div key={entry.id || index} className="flex justify-between items-center bg-white/5 px-3 py-2 rounded hover:bg-white/10 transition-colors">
-                                <div className="flex items-center gap-3">
-                                    <span className={`font-mono text-sm font-bold w-4 text-center ${index === 0 ? 'text-yellow-400' : index === 1 ? 'text-gray-300' : index === 2 ? 'text-orange-400' : 'text-gray-500'}`}>
+                            <div key={entry.id || index} className="flex justify-between items-center bg-white/5 px-2 sm:px-3 py-1.5 sm:py-2 rounded hover:bg-white/10 transition-colors">
+                                <div className="flex items-center gap-2 sm:gap-3">
+                                    <span className={`font-mono text-xs sm:text-sm font-bold w-3 sm:w-4 text-center ${index === 0 ? 'text-yellow-400' : index === 1 ? 'text-gray-300' : index === 2 ? 'text-orange-400' : 'text-gray-500'}`}>
                                         {index + 1}
                                     </span>
                                     <div className="flex flex-col">
-                                      <span className="text-sm font-medium truncate max-w-[100px] text-gray-200">
+                                      <span className="text-xs sm:text-sm font-medium truncate max-w-[80px] sm:max-w-[100px] text-gray-200">
                                           {entry.name}
                                       </span>
                                       {entry.userId === getUserId() && (
-                                        <span className="text-[10px] text-blue-400">You</span>
+                                        <span className="text-[9px] sm:text-[10px] text-blue-400">You</span>
                                       )}
                                     </div>
                                 </div>
-                                <span className="text-sm font-bold text-blue-200 tabular-nums">{entry.score}m</span>
+                                <span className="text-xs sm:text-sm font-bold text-blue-200 tabular-nums">{entry.score}m</span>
                             </div>
                         ))
                     )}
@@ -1059,34 +1081,34 @@ const App: React.FC = () => {
 
       {/* Shop Modal */}
       <div className={`absolute inset-0 flex items-center justify-center bg-black/80 backdrop-blur-md z-50 transition-all duration-300 ${showShop ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-        <div className="bg-gradient-to-br from-gray-900 to-gray-800 border-2 border-yellow-400/30 rounded-3xl p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
+        <div className="bg-gradient-to-br from-gray-900 to-gray-800 border-2 border-yellow-400/30 rounded-2xl sm:rounded-3xl p-4 sm:p-6 max-w-4xl w-full mx-2 sm:mx-4 max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
           {/* Header */}
-          <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
+          <div className="flex justify-between items-center mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-white/10">
             <div>
-              <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">SHOP</h2>
-              <p className="text-sm text-gray-400 mt-1">Customize your stickman!</p>
+              <h2 className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">SHOP</h2>
+              <p className="text-xs sm:text-sm text-gray-400 mt-1">Customize your stickman!</p>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="bg-black/40 px-4 py-2 rounded-full border border-yellow-400/30">
-                <span className="text-yellow-400 font-bold text-xl">💰 {coins}</span>
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="bg-black/40 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full border border-yellow-400/30">
+                <span className="text-yellow-400 font-bold text-base sm:text-xl">💰 {coins}</span>
               </div>
               <button
                 onClick={() => setShowShop(false)}
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-red-500 hover:bg-red-400 transition-colors"
+                className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-red-500 hover:bg-red-400 transition-colors touch-manipulation"
               >
-                <span className="text-white text-xl font-bold">×</span>
+                <span className="text-white text-lg sm:text-xl font-bold">×</span>
               </button>
             </div>
           </div>
 
           {/* Shop Content */}
-          <div className="flex-1 overflow-y-auto space-y-6 pr-2">
+          <div className="flex-1 overflow-y-auto space-y-4 sm:space-y-6 pr-1 sm:pr-2 scrollbar-hide">
             {/* Umbrella Colors */}
             <div>
-              <h3 className="text-xl font-bold text-blue-300 mb-3 flex items-center gap-2">
+              <h3 className="text-base sm:text-xl font-bold text-blue-300 mb-2 sm:mb-3 flex items-center gap-2">
                 <span>☂️</span> Umbrella Colors
               </h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
                 {shopItems.filter(item => item.type === 'umbrella_color').map(item => {
                   const isEquipped = selectedCosmetics.umbrellaColor === item.value;
                   return (
@@ -1125,10 +1147,10 @@ const App: React.FC = () => {
 
             {/* Hats */}
             <div>
-              <h3 className="text-xl font-bold text-purple-300 mb-3 flex items-center gap-2">
+              <h3 className="text-base sm:text-xl font-bold text-purple-300 mb-2 sm:mb-3 flex items-center gap-2">
                 <span>🎩</span> Hats
               </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3">
                 {shopItems.filter(item => item.type === 'hat').map(item => {
                   const isEquipped = selectedCosmetics.hat === item.value;
                   return (
@@ -1382,10 +1404,10 @@ const App: React.FC = () => {
 
       {/* Game Over Screen */}
       <div className={`absolute inset-0 flex items-center justify-center bg-red-900/90 backdrop-blur-md z-40 transition-all duration-700 ${gameState === GameState.GAME_OVER ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-          <div className="bg-black/50 p-6 rounded-3xl border border-white/10 shadow-2xl max-w-sm w-full text-center relative overflow-hidden">
-            
-            <h2 className="text-4xl font-black text-white mb-1 uppercase tracking-widest">Wasted</h2>
-            <div className="text-5xl font-black text-yellow-400 mb-4 tracking-tighter drop-shadow-lg">
+          <div className="bg-black/50 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl max-w-sm w-full mx-3 sm:mx-4 text-center relative overflow-hidden max-h-[95vh] overflow-y-auto scrollbar-hide">
+
+            <h2 className="text-3xl sm:text-4xl font-black text-white mb-1 uppercase tracking-widest">Wasted</h2>
+            <div className="text-4xl sm:text-5xl font-black text-yellow-400 mb-3 sm:mb-4 tracking-tighter drop-shadow-lg">
               {score}m
             </div>
 
@@ -1509,46 +1531,46 @@ const App: React.FC = () => {
 
       {/* Pause Screen */}
       <div className={`absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-md z-40 transition-all duration-300 ${gameState === GameState.PLAYING && isPaused ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-          <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-3xl border-2 border-blue-400/30 shadow-2xl max-w-md w-full text-center">
-            <h2 className="text-5xl font-black text-white mb-2 uppercase tracking-widest">Paused</h2>
-            <div className="text-6xl mb-6">⏸️</div>
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-4 sm:p-8 rounded-2xl sm:rounded-3xl border-2 border-blue-400/30 shadow-2xl max-w-md w-full mx-3 sm:mx-4 text-center">
+            <h2 className="text-3xl sm:text-5xl font-black text-white mb-2 uppercase tracking-widest">Paused</h2>
+            <div className="text-5xl sm:text-6xl mb-4 sm:mb-6">⏸️</div>
 
-            <div className="bg-white/5 rounded-xl p-4 mb-6 border border-white/10">
+            <div className="bg-white/5 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 border border-white/10">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-gray-400 text-sm">Current Depth</span>
-                <span className="text-white font-bold text-xl">{score}m</span>
+                <span className="text-gray-400 text-xs sm:text-sm">Current Depth</span>
+                <span className="text-white font-bold text-base sm:text-xl">{score}m</span>
               </div>
               <div className="flex justify-between items-center mb-2">
-                <span className="text-gray-400 text-sm">Coins Collected</span>
-                <span className="text-yellow-400 font-bold text-xl">💰 {coins}</span>
+                <span className="text-gray-400 text-xs sm:text-sm">Coins Collected</span>
+                <span className="text-yellow-400 font-bold text-base sm:text-xl">💰 {coins}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-400 text-sm">Difficulty</span>
-                <span className={`font-bold text-sm ${difficultyMode === 'EASY' ? 'text-green-400' : difficultyMode === 'MEDIUM' ? 'text-yellow-400' : 'text-red-400'}`}>
+                <span className="text-gray-400 text-xs sm:text-sm">Difficulty</span>
+                <span className={`font-bold text-xs sm:text-sm ${difficultyMode === 'EASY' ? 'text-green-400' : difficultyMode === 'MEDIUM' ? 'text-yellow-400' : 'text-red-400'}`}>
                   {difficultyMode === 'EASY' ? '😊 EASY' : difficultyMode === 'MEDIUM' ? '😐 MEDIUM' : '😈 HARD'}
                 </span>
               </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               <button
                 onClick={handleResume}
-                className="w-full py-4 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold text-lg rounded-xl hover:scale-[1.02] transition-all shadow-lg flex items-center justify-center gap-2"
+                className="w-full py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold text-base sm:text-lg rounded-xl hover:scale-[1.02] transition-all shadow-lg flex items-center justify-center gap-2 touch-manipulation"
               >
-                <span className="text-2xl">▶️</span>
+                <span className="text-xl sm:text-2xl">▶️</span>
                 <span>Resume Game</span>
               </button>
 
               <button
                 onClick={handleStart}
-                className="w-full py-3 bg-gray-700 hover:bg-gray-600 text-white font-bold text-base rounded-xl hover:scale-[1.02] transition-all"
+                className="w-full py-2.5 sm:py-3 bg-gray-700 hover:bg-gray-600 text-white font-bold text-sm sm:text-base rounded-xl hover:scale-[1.02] transition-all touch-manipulation"
               >
                 🔄 Restart
               </button>
 
               <button
                 onClick={handleGoHome}
-                className="w-full py-3 bg-gray-800 hover:bg-gray-700 text-white font-bold text-base rounded-xl hover:scale-[1.02] transition-all border border-white/10"
+                className="w-full py-2.5 sm:py-3 bg-gray-800 hover:bg-gray-700 text-white font-bold text-sm sm:text-base rounded-xl hover:scale-[1.02] transition-all border border-white/10 touch-manipulation"
               >
                 🏠 Go Home
               </button>
@@ -1558,13 +1580,13 @@ const App: React.FC = () => {
 
       {/* Tutorial / Controls Hint */}
       <div className={`absolute bottom-10 left-0 w-full text-center pointer-events-none z-20 transition-opacity duration-500 ${gameState === GameState.PLAYING && !isPaused && score < 50 ? 'opacity-100' : 'opacity-0'}`}>
-         <div className="animate-bounce">
-            <p className="text-white/50 text-sm font-medium">Hold to Glide • Release to Dive</p>
+         <div className="animate-bounce px-4">
+            <p className="text-white/50 text-xs sm:text-sm font-medium">Hold to Glide • Release to Dive</p>
          </div>
       </div>
 
       {/* Volume Controls Panel */}
-      <div className="absolute bottom-2 left-2 z-50 pointer-events-auto">
+      <div className="absolute bottom-2 left-2 z-50 pointer-events-auto touch-manipulation">
         {showVolumeControls && (
           <div className="bg-black/90 text-white p-4 rounded-lg text-xs mb-2 border border-white/20 w-64">
             <div className="font-bold mb-3 flex items-center justify-between">
