@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Stickman Umbrella Glide",
+    "slug": "stickman-umbrella-glide",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a202c"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.thearkcrown.stickmanumbrellaglide"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1a202c"
+      },
+      "package": "com.thearkcrown.stickmanumbrellaglide"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "scheme": "stickman-glide",
+    "plugins": []
+  }
+}
