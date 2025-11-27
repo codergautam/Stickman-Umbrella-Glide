@@ -20,10 +20,11 @@ interface GameCanvasProps {
   playCloseSound?: () => void;
 }
 
-const BASE_GRAVITY = 0.5;
-const BASE_GLIDE_GRAVITY = 0.15;
-const BASE_TERMINAL_VELOCITY = 15;
-const BASE_GLIDE_TERMINAL_VELOCITY = 3;
+// MASSIVELY REDUCED for 3x slower gameplay
+const BASE_GRAVITY = 0.18; // Was 0.5, now ~3x slower
+const BASE_GLIDE_GRAVITY = 0.06; // Was 0.15, now ~3x slower
+const BASE_TERMINAL_VELOCITY = 6; // Was 15, now ~3x slower
+const BASE_GLIDE_TERMINAL_VELOCITY = 1.5; // Was 3, now 2x slower
 const WORLD_SPEED_MULTIPLIER_MAX = 2.0; // At max difficulty, world is 2x faster
 
 const GameCanvas: React.FC<GameCanvasProps> = ({
