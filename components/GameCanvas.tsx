@@ -1142,6 +1142,11 @@ const GameCanvas: React.FC<GameCanvasProps> = ({
   const draw = useCallback((ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // --- SCREEN SCALE CALCULATION (for HUD elements) ---
+    const scaleX = canvas.width / REFERENCE_WIDTH;
+    const scaleY = canvas.height / REFERENCE_HEIGHT;
+    const scale = Math.min(scaleX, scaleY);
+
     // --- APPLY SCREEN SHAKE ---
     ctx.save();
     if (shakeRef.current > 0) {
