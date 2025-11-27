@@ -20,7 +20,11 @@ interface GameCanvasProps {
   playCloseSound?: () => void;
 }
 
-// MASSIVELY REDUCED for 3x slower gameplay
+// Base values at 1920x1080 reference resolution
+const REFERENCE_WIDTH = 1920;
+const REFERENCE_HEIGHT = 1080;
+
+// MASSIVELY REDUCED for 3x slower gameplay - scaled to screen size
 const BASE_GRAVITY = 0.18; // Was 0.5, now ~3x slower
 const BASE_GLIDE_GRAVITY = 0.06; // Was 0.15, now ~3x slower
 const BASE_TERMINAL_VELOCITY = 6; // Was 15, now ~3x slower
@@ -168,13 +172,14 @@ const GameCanvas: React.FC<GameCanvasProps> = ({
       windZonesRef.current.push({ id, x, y, width, height, vx, vy });
   };
 
-  // Helper to spawn obstacles
-  const spawnObstacle = (canvasWidth: number, canvasHeight: number, difficulty: number) => {
+  // Helper to spawn obstacles - SCALED TO SCREEN SIZE
+  const spawnObstacle = (canvasWidth: number, canvasHeight: number, difficulty: number, scale: number) => {
     const typeRoll = Math.random();
     let type: Obstacle['type'] = 'CLOUD';
-    let width = 350; // GIANT - was 100 originally, now 3.5x bigger
-    let height = 200; // GIANT - was 60 originally, now 3.3x bigger
-    let y = canvasHeight + 100;
+    // Base sizes at reference resolution (1920x1080), then scale to actual screen
+    let width = 350 * scale; // GIANT - scales with screen size
+    let height = 200 * scale; // GIANT - scales with screen size
+    let y = canvasHeight + 100 * scale;
     let x = Math.random() * (canvasWidth - width);
     let speedX = 0;
 
@@ -183,18 +188,18 @@ const GameCanvas: React.FC<GameCanvasProps> = ({
 
     if (typeRoll < 0.4) {
       type = 'BIRD';
-      width = 120; // GIANT - was 40 originally, now 3x bigger
-      height = 70; // GIANT - was 20 originally, now 3.5x bigger
-      speedX = (Math.random() - 0.5) * 4 * speedMult; // Moves faster horizontally
+      width = 120 * scale; // GIANT - scales with screen
+      height = 70 * scale; // GIANT - scales with screen
+      speedX = (Math.random() - 0.5) * 4 * speedMult * scale; // Speed also scales
     } else if (typeRoll < 0.6) {
       type = 'BALLOON';
-      width = 100; // GIANT - was 30 originally, now 3.3x bigger
-      height = 150; // GIANT - was 40 originally, now 3.75x bigger
+      width = 100 * scale; // GIANT - scales with screen
+      height = 150 * scale; // GIANT - scales with screen
       speedX = 0;
     } else if (typeRoll < 0.8 && scoreRef.current > 500) {
       type = 'BUILDING';
-      width = 300 + Math.random() * 200; // GIANT - 300-500 width
-      height = 700; // GIANT - was 400, now way taller
+      width = (300 + Math.random() * 200) * scale; // GIANT - scales with screen
+      height = 700 * scale; // GIANT - scales with screen
       x = Math.random() > 0.5 ? 0 : canvasWidth - width; // Snap to sides
       y = canvasHeight + height;
     }
@@ -300,6 +305,12 @@ const GameCanvas: React.FC<GameCanvasProps> = ({
 
   const update = useCallback((canvas: HTMLCanvasElement) => {
     if (gameState !== GameState.PLAYING || isPaused) return;
+
+    // --- SCREEN SCALE CALCULATION ---
+    // Scale everything based on current canvas size vs reference resolution
+    const scaleX = canvas.width / REFERENCE_WIDTH;
+    const scaleY = canvas.height / REFERENCE_HEIGHT;
+    const scale = Math.min(scaleX, scaleY); // Use smaller scale to maintain aspect ratio
 
     // --- DIFFICULTY CALCULATION ---
     // Scales from 0 to 1 over 8000 score units - REBALANCED for more gradual progression
@@ -476,8 +487,8 @@ const GameCanvas: React.FC<GameCanvasProps> = ({
     const responsiveness = player.isUmbrellaOpen ? 0.08 : 0.15; // Was 0.05/0.12, now 0.08/0.15
     let moveSpeed = dx * responsiveness;
 
-    // Clamp max lateral speed - REDUCED for more controlled movement
-    const MAX_LATERAL_SPEED = 12; // Was 25, now much slower for precision
+    // Clamp max lateral speed - SCALED TO SCREEN SIZE
+    const MAX_LATERAL_SPEED = 12 * scale; // Scales with screen for consistent movement
     if (moveSpeed > MAX_LATERAL_SPEED) moveSpeed = MAX_LATERAL_SPEED;
     if (moveSpeed < -MAX_LATERAL_SPEED) moveSpeed = -MAX_LATERAL_SPEED;
     
@@ -490,9 +501,9 @@ const GameCanvas: React.FC<GameCanvasProps> = ({
 
     player.vx = moveSpeed + gustVx;
 
-    // 5. Vertical Physics (Gravity & Lift) - SCALED WITH DIFFICULTY
-    let currentGravity = player.isUmbrellaOpen ? BASE_GLIDE_GRAVITY : BASE_GRAVITY;
-    let currentTerminal = player.isUmbrellaOpen ? BASE_GLIDE_TERMINAL_VELOCITY : BASE_TERMINAL_VELOCITY;
+    // 5. Vertical Physics (Gravity & Lift) - SCALED WITH DIFFICULTY AND SCREEN SIZE
+    let currentGravity = (player.isUmbrellaOpen ? BASE_GLIDE_GRAVITY : BASE_GRAVITY) * scale;
+    let currentTerminal = (player.isUmbrellaOpen ? BASE_GLIDE_TERMINAL_VELOCITY : BASE_TERMINAL_VELOCITY) * scale;
 
     // Apply difficulty scaling to gravity and terminal velocity
     currentGravity *= gravityMultiplier;
@@ -501,11 +512,11 @@ const GameCanvas: React.FC<GameCanvasProps> = ({
     // Apply Lift: Moving horizontally creates lift (Bernoulli-ish)
     if (player.isUmbrellaOpen) {
         const liftForce = Math.abs(player.vx) * 0.1;
-        currentGravity -= liftForce * 0.05; 
-        
-        // Slight direct upward force if moving fast
-        if (Math.abs(player.vx) > 5) {
-            player.vy -= 0.05;
+        currentGravity -= liftForce * 0.05 * scale;
+
+        // Slight direct upward force if moving fast - scaled
+        if (Math.abs(player.vx) > 5 * scale) {
+            player.vy -= 0.05 * scale;
         }
     }
 
@@ -767,7 +778,7 @@ const GameCanvas: React.FC<GameCanvasProps> = ({
 
     // Spawn Obstacles (Dynamic Rate)
     if (frameCountRef.current % obstacleSpawnRate === 0) {
-      spawnObstacle(canvas.width, canvas.height, difficulty);
+      spawnObstacle(canvas.width, canvas.height, difficulty, scale);
     }
     
     // Spawn Wind Zones (ONLY in Storm Mode)
