@@ -172,8 +172,8 @@ const GameCanvas: React.FC<GameCanvasProps> = ({
   const spawnObstacle = (canvasWidth: number, canvasHeight: number, difficulty: number) => {
     const typeRoll = Math.random();
     let type: Obstacle['type'] = 'CLOUD';
-    let width = 100;
-    let height = 60;
+    let width = 180; // Was 100, now MUCH bigger
+    let height = 100; // Was 60, now MUCH bigger
     let y = canvasHeight + 100;
     let x = Math.random() * (canvasWidth - width);
     let speedX = 0;
@@ -183,18 +183,18 @@ const GameCanvas: React.FC<GameCanvasProps> = ({
 
     if (typeRoll < 0.4) {
       type = 'BIRD';
-      width = 40;
-      height = 20;
+      width = 70; // Was 40, now much bigger
+      height = 40; // Was 20, now 2x bigger
       speedX = (Math.random() - 0.5) * 4 * speedMult; // Moves faster horizontally
     } else if (typeRoll < 0.6) {
       type = 'BALLOON';
-      width = 30;
-      height = 40;
+      width = 60; // Was 30, now 2x bigger
+      height = 80; // Was 40, now 2x bigger
       speedX = 0;
     } else if (typeRoll < 0.8 && scoreRef.current > 500) {
       type = 'BUILDING';
-      width = 150 + Math.random() * 100;
-      height = 400; // Tall
+      width = 200 + Math.random() * 150; // Was 150-250, now 200-350
+      height = 500; // Was 400, now taller
       x = Math.random() > 0.5 ? 0 : canvasWidth - width; // Snap to sides
       y = canvasHeight + height;
     }
